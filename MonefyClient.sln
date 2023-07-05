@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. MVC layer", "1. MVC layer", "{64509DA9-C878-4A1E-AA26-AC6BFFD6E188}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application Layer", "2. Application Layer", "{577D2687-1B8A-4DEA-A0D3-F70043B0B3F3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonefyClient.Mvc", "MonefyClient.Mvc\MonefyClient.Mvc.csproj", "{42A05599-25CF-4F74-A5E6-0AB3DE218536}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonefyClient.ViewModels", "MonefyClient.ViewModels\MonefyClient.ViewModels.csproj", "{4A3CC16D-88C6-4079-A8F9-1BD43B3029E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonefyClient.Application.Services", "MonefyClient.Application.Services\MonefyClient.Application.Services.csproj", "{2E6BF5AB-92BB-4C19-8F4C-37D72A8E8C45}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonefyClient.Application.DTOs", "MonefyClient.Application.DTOs\MonefyClient.Application.DTOs.csproj", "{0300E311-8B20-45C3-94D2-E404640D8668}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42A05599-25CF-4F74-A5E6-0AB3DE218536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A05599-25CF-4F74-A5E6-0AB3DE218536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A05599-25CF-4F74-A5E6-0AB3DE218536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A05599-25CF-4F74-A5E6-0AB3DE218536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A3CC16D-88C6-4079-A8F9-1BD43B3029E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A3CC16D-88C6-4079-A8F9-1BD43B3029E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A3CC16D-88C6-4079-A8F9-1BD43B3029E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A3CC16D-88C6-4079-A8F9-1BD43B3029E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E6BF5AB-92BB-4C19-8F4C-37D72A8E8C45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E6BF5AB-92BB-4C19-8F4C-37D72A8E8C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E6BF5AB-92BB-4C19-8F4C-37D72A8E8C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E6BF5AB-92BB-4C19-8F4C-37D72A8E8C45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0300E311-8B20-45C3-94D2-E404640D8668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0300E311-8B20-45C3-94D2-E404640D8668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0300E311-8B20-45C3-94D2-E404640D8668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0300E311-8B20-45C3-94D2-E404640D8668}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{42A05599-25CF-4F74-A5E6-0AB3DE218536} = {64509DA9-C878-4A1E-AA26-AC6BFFD6E188}
+		{4A3CC16D-88C6-4079-A8F9-1BD43B3029E3} = {64509DA9-C878-4A1E-AA26-AC6BFFD6E188}
+		{2E6BF5AB-92BB-4C19-8F4C-37D72A8E8C45} = {577D2687-1B8A-4DEA-A0D3-F70043B0B3F3}
+		{0300E311-8B20-45C3-94D2-E404640D8668} = {577D2687-1B8A-4DEA-A0D3-F70043B0B3F3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C92138A-FC25-44F7-8DC4-FFBD503A6F45}
+	EndGlobalSection
+EndGlobal
