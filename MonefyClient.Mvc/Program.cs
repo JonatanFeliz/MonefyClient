@@ -1,7 +1,17 @@
+using Microsoft.Extensions.Configuration;
+using MonefyClient.Application.Services.Abstractions;
+using MonefyClient.Application.Services.Implementations;
+using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+builder.Services.AddTransient<IMonefyAccountAppService,MonefyAccountAppService>();
+builder.Services.AddTransient<IMonefyExpenseAppService, MonefyExpenseAppService>();
+builder.Services.AddTransient<IMonefyIncomeAppService, MonefyIncomeAppService>();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
