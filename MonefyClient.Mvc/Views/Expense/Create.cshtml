@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Expenses - Monefy";
+}
+
+<section id="create_expense">
+    <div class="container w-50" style="margin-top: 200px;">
+        <div class="row">
+            <div class="col-12 text-center">
+                <input type="text" id="Description" class="bg-success border-success px-5 py-3 fs-3" placeholder="Description">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <input type="number" id="Value" placeholder="0" />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <input type="date" id="Date"/>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <select id="Category">
+                    <option value="Category">Category</option>
+                    <option value="food">Food</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <button button onclick="submit()" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function submit() {
+        var date = new Date(Date.parse($('#Date').val()));
+
+        var data = {
+            Description: $('#Description').val(),
+            Value: $('#Value').val(),
+            Date: date,
+            Category: $('#Category').val()
+        };
+
+        $.post("/Expense/CreateExpense", { sm: data }, function () { alert('Successfully Saved') });
+    }
+</script>

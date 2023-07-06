@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Create Account - Monefy";
+}
+
+<section id="create_account">
+    <div class="container w-50" style="margin-top: 200px;">
+        <div class="row">
+            <div class="col-12 text-center">
+                <input type="text" id="Name" class="bg-success border-success px-5 py-3 fs-3" placeholder="Name">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <select id="Currency">
+                    <option value="Category">currency</option>
+                    <option value="Euro">Euro</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <button onclick="submit()" class="btn btn-success">Save</button>
+            </div>
+        </div>
+
+        <h4 style="color:purple" class="text-center" id="output"></h4>
+    </div>
+</section>
+
+<script>
+    function submit() {
+        var data = {
+            Name: $('#Name').val(),
+            Currency: $('#Currency').val()
+        };
+
+        $.post("/Account/CreateAccount", { sm: data }, function () { alert('Successfully Saved') });
+    }
+</script>
