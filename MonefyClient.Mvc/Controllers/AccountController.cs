@@ -22,16 +22,6 @@ namespace MonefyClient.Mvc.Controllers
             return View();
         }
 
-        //public IActionResult IncomeIndex()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult ExpenseIndex()
-        //{
-        //    return View();
-        //}
-
         public IActionResult Accounts()
         {
             return View();
@@ -42,16 +32,6 @@ namespace MonefyClient.Mvc.Controllers
             return View();
         }
 
-        //public IActionResult Income()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult Expense()
-        //{
-        //    return View();
-        //}
-
         [HttpPost]
         public IActionResult CreateAccount(AccountViewModel sm)
         {
@@ -61,23 +41,5 @@ namespace MonefyClient.Mvc.Controllers
 
             return View("Index");
         }
-
-        //public IActionResult CreateIncome(IncomeViewModel sm)
-        //{
-        //    var incomeDTO = _mapper.Map<InputIncomeDTO>(sm);
-
-        //    _appService.CreateIncome(incomeDTO);
-
-        //    return View("IncomeIndex");
-        //}
-
-        //public IActionResult CreateExpense(ExpenseViewModel sm)
-        //{
-        //    var expenseDTO = _mapper.Map<InputAccountDTO>(sm);
-
-        //    _appService.CreateAccount(expenseDTO);
-
-        //    return View("ExpenseIndex");
-        //}
     }
 }

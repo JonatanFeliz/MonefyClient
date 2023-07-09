@@ -14,7 +14,5 @@ namespace MonefyClient.Application.DTOs.InputDTOs
         = string.Empty;
         public string Password { get; set; }
         = string.Empty;
-        public IEnumerable<InputAccountDTO> Accounts { get; set; }
-        = Enumerable.Empty<InputAccountDTO>();
     }
 }
