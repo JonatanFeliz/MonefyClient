@@ -22,11 +22,8 @@ namespace MonefyClient.Application.Services.Implementations
 
         public async Task CreateAccount(InputAccountDTO account)
         {
-            account.Incomes = new List<InputIncomeDTO>();
-            account.Expenses = new List<InputExpenseDTO>();
-
             var content = new StringContent(JsonConvert.SerializeObject(account), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/", content);
+            var response = await _httpClient.PostAsync("endpoint/AddAccountAsync/{id}", content);
 
             if (response.IsSuccessStatusCode)
             {

@@ -10,11 +10,13 @@ namespace MonefyClient.Mvc.Controllers
     {
         private readonly IMonefyUserAppService _appService;
         private readonly IMapper _mapper;
+        private readonly HttpContext _httpContext;
 
-        public UserController(IMonefyUserAppService appService, IMapper mapper)
+        public UserController(IMonefyUserAppService appService, IMapper mapper, HttpContext httpContext)
         {
             _appService = appService;
             _mapper = mapper;
+            _httpContext = httpContext;
         }
 
         public IActionResult Login()
@@ -25,7 +27,8 @@ namespace MonefyClient.Mvc.Controllers
 
         public IActionResult Register()
         {
-            return View();
+            UserViewModel model = new();
+            return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -33,13 +36,14 @@ namespace MonefyClient.Mvc.Controllers
         {
             var userDTO = _mapper.Map<InputUserDTO>(user);
 
-            Console.WriteLine($"Email: {userDTO.Email}, Password: {userDTO.Password}");
+            //Console.WriteLine($"Email: {userDTO.Email}, Password: {userDTO.Password}");
 
-            var logged = await _appService.ValidateLogin(userDTO);
+            var token = await _appService.ValidateLogin(userDTO);
 
 
-            if (logged)
+            if (token != null)
             {
+                _httpContext.Session.SetString("Token", token);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -48,15 +52,13 @@ namespace MonefyClient.Mvc.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Register(UserViewModel user)
+        public async Task<IActionResult> Register(UserViewModel user)
         {
             var userDTO = _mapper.Map<InputUserDTO>(user);
 
-            Console.WriteLine($"Name: {userDTO.Name}, Email: {userDTO.Email}, Password: {userDTO.Password}");
+            //Console.WriteLine($"Name: {userDTO.Name}, Email: {userDTO.Email}, Password: {userDTO.Password}");
 
-            //var registered = await _appService.CreateUser(userDTO);
-
-            var registered = _appService.CreateUser(userDTO);
+            var registered = await _appService.CreateUser(userDTO);
 
 
             if (registered)

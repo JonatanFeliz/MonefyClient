@@ -22,24 +22,27 @@ namespace MonefyClient.Mvc.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Accounts()
         {
+
             return View();
         }
 
         public IActionResult Create()
         {
-            return View();
+            AccountViewModel model = new();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult CreateAccount(AccountViewModel sm)
+        public async Task<IActionResult> Create(AccountViewModel account)
         {
-            var accountDTO = _mapper.Map<InputAccountDTO>(sm);
+            var accountDTO = _mapper.Map<InputAccountDTO>(account);
 
-            _appService.CreateAccount(accountDTO);
+            await _appService.CreateAccount(accountDTO);
 
-            return View("Index");
+            return RedirectToAction("Accounts", "Account");
         }
     }
 }
