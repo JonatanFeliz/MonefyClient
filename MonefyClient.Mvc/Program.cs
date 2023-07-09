@@ -24,6 +24,12 @@ builder.Services.AddTransient<IMonefyIncomeAppService, MonefyIncomeAppService>()
 builder.Services.AddTransient<IMonefyUserAppService, MonefyUserAppService>();
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(3);
+});
+//builder.Services.AddMvc();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,8 +47,22 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
+//app.UseMvc();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=User}/{action=Login}/{id?}");
 
 app.Run();
+
+
+//TODO:
+// - JWT
+// - Multidioma
+// - Conectar con la API
+// - Inyeccion de dependencias (revisar)
+// - Mejorar apartado visual
+// - Sessions
+// - Conectar API de crytos

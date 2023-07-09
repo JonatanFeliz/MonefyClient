@@ -8,7 +8,7 @@ namespace MonefyClient.ViewModels
 {
     public class AccountViewModel
     {
-        public string Name { get; set; }
-        public string Currency { get; set; }
+        public string? Name { get; set; }
+        public string? Currency { get; set; }
     }
 }

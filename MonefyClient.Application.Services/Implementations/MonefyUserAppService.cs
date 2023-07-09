@@ -1,4 +1,5 @@
-﻿using MonefyClient.Application.DTOs.InputDTOs;
+﻿using Microsoft.AspNetCore.Http;
+using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
 using Newtonsoft.Json;
 using Serilog;
@@ -21,50 +22,39 @@ namespace MonefyClient.Application.Services.Implementations
             _log = log;
         }
 
-        public async Task<bool> ValidateLogin(InputUserDTO user) //Poner async al llamar a la API
+        public async Task<string?> ValidateLogin(InputUserDTO user) //Poner async al llamar a la API
         {
-            // Mock
-            //if (user.Email == "jf@gmail.com" && user.Password == "jfvueling")
-            //{
-            //    return true;
-            //}
-            //return false;
-
-            // Real
             var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("url", content);
+            var response = await _httpClient.PostAsync("url/login", content);
 
             if (response.IsSuccessStatusCode) 
             {
                 // Guardar el token
+                //var token = response.
+                var token = "Hola";
                 _log.Information($"Valid user");
-                return true;
+                return token;
             }
 
             _log.Information($"Invalid user");
-            return false;
+            return null;
         }
 
-        public bool CreateUser(InputUserDTO user) //Poner async al llamar a la API
+        public async Task<bool> CreateUser(InputUserDTO user)
         {
-            // Mock
+            var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-            return true;
-            // Real
-            //var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("endpoint/AddUser", content);
 
-            //var response = await _httpClient.PostAsync("url", content);
+            if (response.IsSuccessStatusCode)
+            {
+                _log.Information($"Create user");
+                return true;
+            }
 
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    // Guardar el token
-            //    _log.Information($"Create user");
-            //    return true;
-            //}
-
-            //_log.Information($"User not create");
-            //return false;
+            _log.Information($"User not create");
+            return false;
         }
     }
 }
