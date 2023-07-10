@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
+using MonefyClient.Application.DTOs;
 using MonefyClient.Application.DTOs.InputDTOs;
+using MonefyClient.Application.DTOs.OutputDTOs;
 using MonefyClient.Application.Services.Abstractions;
 using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,19 +25,23 @@ namespace MonefyClient.Application.Services.Implementations
             _log = log;
         }
 
-        public async Task<string?> ValidateLogin(InputUserDTO user) //Poner async al llamar a la API
+        public async Task<UserToken?> ValidateLogin(InputUserDTO user) 
         {
+            user.Name = "";
+
             var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("url/login", content);
+            var response = await _httpClient.PostAsync("https://localhost:7021/User/Login", content);
 
             if (response.IsSuccessStatusCode) 
             {
-                // Guardar el token
-                //var token = response.
-                var token = "Hola";
+                var token = await response.Content.ReadAsStringAsync();
+                var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
+                var userId = jwt.Claims.First(c => c.Type == "UserId").Value;
+                var name = jwt.Claims.First(c => c.Type == "Name").Value;
+
                 _log.Information($"Valid user");
-                return token;
+                return new UserToken(userId, name, token);
             }
 
             _log.Information($"Invalid user");
@@ -45,7 +52,7 @@ namespace MonefyClient.Application.Services.Implementations
         {
             var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("endpoint/AddUser", content);
+            var response = await _httpClient.PostAsync("https://localhost:7021/User", content);
 
             if (response.IsSuccessStatusCode)
             {

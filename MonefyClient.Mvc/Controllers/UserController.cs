@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
@@ -10,18 +11,20 @@ namespace MonefyClient.Mvc.Controllers
     {
         private readonly IMonefyUserAppService _appService;
         private readonly IMapper _mapper;
-        private readonly HttpContext _httpContext;
+        IValidator<UserViewModel> _userValidator;
+        IValidator<UserLoginViewModel> _userLoginValidator;
 
-        public UserController(IMonefyUserAppService appService, IMapper mapper, HttpContext httpContext)
+        public UserController(IMonefyUserAppService appService, IMapper mapper, IValidator<UserViewModel> userValidator, IValidator<UserLoginViewModel> userLoginValidator)
         {
             _appService = appService;
             _mapper = mapper;
-            _httpContext = httpContext;
+            _userLoginValidator = userLoginValidator;
+            _userValidator = userValidator;
         }
 
         public IActionResult Login()
         {
-            UserViewModel model = new();
+            UserLoginViewModel model = new();
             return View(model);
         }
 
@@ -32,41 +35,56 @@ namespace MonefyClient.Mvc.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserViewModel user)
+        public async Task<IActionResult> Login(UserLoginViewModel user)
         {
-            var userDTO = _mapper.Map<InputUserDTO>(user);
+            var validationResult = _userLoginValidator.Validate(user);
+            
+            if (!validationResult.IsValid)
+            {
+                return View();
+            }
 
-            //Console.WriteLine($"Email: {userDTO.Email}, Password: {userDTO.Password}");
+            var userDTO = _mapper.Map<InputUserDTO>(user);
 
             var token = await _appService.ValidateLogin(userDTO);
 
-
             if (token != null)
             {
-                _httpContext.Session.SetString("Token", token);
+                HttpContext.Session.SetString("Token", token.Token);
+                HttpContext.Session.SetString("UserId", token.Id);
                 return RedirectToAction("Index", "Home");
             }
+            else 
+            {
+                ViewBag.Message = "Login failed";
+            }
 
-            ViewBag.Message = "Login failed";
             return View();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserViewModel user)
         {
+            var validationResult = _userValidator.Validate(user);
+
+            if (!validationResult.IsValid)
+            {
+                return View();
+            }
+
             var userDTO = _mapper.Map<InputUserDTO>(user);
 
-            //Console.WriteLine($"Name: {userDTO.Name}, Email: {userDTO.Email}, Password: {userDTO.Password}");
-
             var registered = await _appService.CreateUser(userDTO);
-
 
             if (registered)
             {
                 return RedirectToAction("Login", "User");
             }
+            else
+            {
+                ViewBag.Message = "Failed user creation";
+            }
 
-            ViewBag.Message = "Create User failed";
             return View();
         }
     }

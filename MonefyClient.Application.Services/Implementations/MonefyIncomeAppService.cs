@@ -18,20 +18,18 @@ namespace MonefyClient.Application.Services.Implementations
             _httpClient = httpClient;
         }
 
-        public async Task CreateIncome(InputIncomeDTO income)
+        public async Task<bool> CreateIncome(Guid accountId, InputIncomeDTO income)
         {
-            Console.WriteLine($"Description: {income.Description}, Value: {income.Value}, Date: {income.Date:dd-MMM-yyyy}, Category: {income.Category}");
-
             var content = new StringContent(JsonConvert.SerializeObject(income), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/", content);
+            var response = await _httpClient.PostAsync("https://localhost:7021/Income/" + accountId, content);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
+                return true;
             }
             else
             {
-                var message = await response.Content.ReadAsStringAsync();
+                return false;
             }
         }
     }

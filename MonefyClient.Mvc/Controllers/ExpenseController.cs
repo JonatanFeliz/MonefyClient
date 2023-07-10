@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
 using MonefyClient.ViewModels;
+using System.Security.Principal;
 
 namespace MonefyClient.Mvc.Controllers
 {
@@ -29,17 +30,25 @@ namespace MonefyClient.Mvc.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            ExpenseViewModel model = new();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult CreateExpense(ExpenseViewModel sm)
+        public async Task<IActionResult> Create(ExpenseViewModel expense)
         {
-            var expenseDTO = _mapper.Map<InputExpenseDTO>(sm);
+            var expenseDTO = _mapper.Map<InputExpenseDTO>(expense);
 
-            _appService.CreateExpense(expenseDTO);
+            var accountId = new Guid("461a4e05-e98b-427c-43cb-08db80c2950f");
 
-            return View("Index");
+            var created = await _appService.CreateExpense(accountId, expenseDTO);
+
+            if (created)
+            {
+                return RedirectToAction("Index", "Expense");
+            }
+
+            return View();
         }
     }
 }

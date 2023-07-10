@@ -29,17 +29,25 @@ namespace MonefyClient.Mvc.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            IncomeViewModel model = new();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult CreateIncome(IncomeViewModel sm)
+        public async Task<IActionResult> Create(IncomeViewModel income)
         {
-            var incomeDTO = _mapper.Map<InputIncomeDTO>(sm);
+            var incomeDTO = _mapper.Map<InputIncomeDTO>(income);
 
-            _appService.CreateIncome(incomeDTO);
+            var accountId = new Guid("461a4e05-e98b-427c-43cb-08db80c2950f");
 
-            return View("Index");
+            var created = await _appService.CreateIncome(accountId, incomeDTO);
+
+            if (created)
+            {
+                return RedirectToAction("Index", "Income");
+            }
+
+            return View();
         }
     }
 }

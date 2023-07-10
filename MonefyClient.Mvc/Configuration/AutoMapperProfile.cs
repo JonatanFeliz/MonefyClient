@@ -15,6 +15,8 @@ namespace MonefyClient.Mvc.Configuration
             CreateMap<IncomeViewModel, InputIncomeDTO>().ReverseMap();
 
             CreateMap<UserViewModel, InputUserDTO>().ReverseMap();
+
+            CreateMap<UserLoginViewModel, InputUserDTO>().ReverseMap();
         }
     }
 }
