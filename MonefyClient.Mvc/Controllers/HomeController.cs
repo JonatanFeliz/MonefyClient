@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Mvc.Models;
+using NuGet.Common;
 using System.Diagnostics;
 
 namespace MonefyClient.Mvc.Controllers
@@ -15,6 +16,9 @@ namespace MonefyClient.Mvc.Controllers
 
         public IActionResult Index()
         {
+            //var token = HttpContext.Session.GetString("Token");
+            //var userId = HttpContext.Session.GetString("UserId");
+            //ViewBag.Token = userId + " / "+ token;
             return View();
         }
 

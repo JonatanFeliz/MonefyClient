@@ -1,8 +1,9 @@
-﻿@model MonefyClient.ViewModels.UserViewModel
+﻿@model MonefyClient.ViewModels.UserLoginViewModel
 @{
     ViewData["Title"] = "Login - Monefy";
     Layout = "~/Views/Shared/_PublicLayout.cshtml";
 }
+
 
 @*https://www.youtube.com/watch?v=hZ1DASYd9rk*@
 
@@ -17,11 +18,15 @@
                     <div class="mb-3">
                         <label asp-for="Email" class="form-label"></label>
                         <input type="email" asp-for="Email" placeholder="j@gmail.com" class="form-control">
+
+                        <small class="text-danger">@Html.ValidationMessageFor(model=>model.Email)</small>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Password" class="form-label"></label>
                         <input type="password" asp-for="Password" placeholder="***********" class="form-control">
+
+                        <small class="text-danger">@Html.ValidationMessageFor(model=>model.Password)</small>
                     </div>
 
                     <div class="d-grid gap-2">

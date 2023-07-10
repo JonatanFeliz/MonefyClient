@@ -9,6 +9,6 @@ namespace MonefyClient.Application.Services.Abstractions
 {
     public interface IMonefyExpenseAppService
     {
-        Task CreateExpense(InputExpenseDTO expense);
+        Task<bool> CreateExpense(Guid accountId, InputExpenseDTO expense);
     }
 }

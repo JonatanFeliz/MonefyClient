@@ -19,13 +19,16 @@ namespace MonefyClient.Mvc.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
         [HttpGet]
-        public IActionResult Accounts()
+        public async Task<IActionResult> Accounts()
         {
-
+            var userId = new Guid("75610266-f348-44df-c4e2-08db80c016a8");
+            //Console.WriteLine(await _appService.GetAccounts(userId));
+            var accounts = await _appService.GetAccounts(userId);
             return View();
         }
 
@@ -40,9 +43,16 @@ namespace MonefyClient.Mvc.Controllers
         {
             var accountDTO = _mapper.Map<InputAccountDTO>(account);
 
-            await _appService.CreateAccount(accountDTO);
+            var userId = new Guid("75610266-f348-44df-c4e2-08db80c016a8");
 
-            return RedirectToAction("Accounts", "Account");
+            var created = await _appService.CreateAccount(userId, accountDTO);
+
+            if (created)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+
+            return View();
         }
     }
 }

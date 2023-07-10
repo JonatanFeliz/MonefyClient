@@ -1,6 +1,11 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using MonefyClient.Application.Services.Abstractions;
 using MonefyClient.Application.Services.Implementations;
+using MonefyClient.Mvc.Validations;
+using MonefyClient.ViewModels;
 using Serilog;
 using System.Configuration;
 
@@ -17,6 +22,9 @@ builder.Services.AddSingleton<Serilog.ILogger>(log);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddScoped<IValidator<UserViewModel>, UserViewModelValidator>();
+builder.Services.AddScoped<IValidator<UserLoginViewModel>, UserLoginViewModelValidator>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<IMonefyAccountAppService,MonefyAccountAppService>();
 builder.Services.AddTransient<IMonefyExpenseAppService, MonefyExpenseAppService>();

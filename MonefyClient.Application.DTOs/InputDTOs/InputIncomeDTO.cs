@@ -12,7 +12,6 @@ namespace MonefyClient.Application.DTOs.InputDTOs
         = string.Empty;
         public decimal Value { get; set; }
         public DateTime Date { get; set; }
-        public string Category { get; set; }
-        = string.Empty;
+        public InputIncomeCategoryDTO? Category { get; set; }
     }
 }

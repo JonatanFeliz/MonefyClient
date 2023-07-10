@@ -9,6 +9,6 @@ namespace MonefyClient.Application.Services.Abstractions
 {
     public interface IMonefyIncomeAppService
     {
-        Task CreateIncome(InputIncomeDTO income);
+        Task<bool> CreateIncome(Guid accountId, InputIncomeDTO expense);
     }
 }

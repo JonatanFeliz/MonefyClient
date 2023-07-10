@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,20 +19,18 @@ namespace MonefyClient.Application.Services.Implementations
             _httpClient = httpClient;
         }
 
-        public async Task CreateExpense(InputExpenseDTO expense)
+        public async Task<bool> CreateExpense(Guid accountId, InputExpenseDTO expense)
         {
-            Console.WriteLine($"Description: {expense.Description}, Value: {expense.Value}, Date: {expense.Date:dd-MMM-yyyy}, Category: {expense.Category}");
-
             var content = new StringContent(JsonConvert.SerializeObject(expense), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/", content);
+            var response = await _httpClient.PostAsync("https://localhost:7021/Expense/" + accountId, content);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
+                return true;
             }
             else
             {
-                var message = await response.Content.ReadAsStringAsync();
+                return false;
             }
         }
     }
