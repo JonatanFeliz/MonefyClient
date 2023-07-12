@@ -52,8 +52,6 @@ namespace MonefyClient.Mvc.Controllers
 
             var accountDTO = _mapper.Map<InputAccountDTO>(account);
 
-            //Console.WriteLine($"id: {userId}, name: {accountDTO.Name}, currency: {accountDTO.Currency}");
-
             var created = await _appService.CreateAccount(accountDTO);
 
             if (created)
@@ -63,6 +61,52 @@ namespace MonefyClient.Mvc.Controllers
 
             return View();
         }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var account = await _appService.GetAccount(id);
+            var mapper = _mapper.Map<OutputAccountViewModel>(account);
+            return View(mapper);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            await _appService.Delete(id);
+
+            return RedirectToAction("Accounts", "Account");
+        }
+
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var account = await _appService.GetAccount(id);
+            var mapper = _mapper.Map<OutputAccountViewModel>(account);
+            return View(mapper);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Guid id, AccountViewModel account)
+        {
+            var validationResult = _accountValidator.Validate(account);
+
+            if (!validationResult.IsValid)
+            {
+                return View();
+            }
+
+            var accountDTO = _mapper.Map<InputAccountDTO>(account);
+
+            var created = await _appService.Update(id, accountDTO);
+
+            if (created)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+
+            return View();
+        }
+
+        
     }
 }
 

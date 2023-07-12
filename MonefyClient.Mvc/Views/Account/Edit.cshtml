@@ -1,14 +1,14 @@
-﻿@model MonefyClient.ViewModels.AccountViewModel
+﻿@model MonefyClient.ViewModels.OutputAccountViewModel
 @{
-    ViewData["Title"] = "Create Account - Monefy";
+    ViewData["Title"] = "Edit Account - Monefy";
 }
 
-<section id="create_account">
+<section id="edit_account">
     <div class="container w-50" style="margin-top: 200px;">
 
-        <form asp-action="Create" asp-controller="Account">
-            <h2 class="text-center mb-3">Create Account</h2>
-
+        <form asp-action="Edit" asp-controller="Account">
+            <h2 class="text-center mb-3">Edit Account</h2>
+            <input type="hidden" asp-for="Id" />
             <div class="row">
                 <div class="col-12 text-center">
                     <label asp-for="Name" class="form-label"></label>
