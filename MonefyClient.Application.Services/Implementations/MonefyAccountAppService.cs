@@ -22,14 +22,12 @@ namespace MonefyClient.Application.Services.Implementations
     public class MonefyAccountAppService : IMonefyAccountAppService
     {
         private readonly HttpClient _httpClient;
-        private readonly IMapper _mapper;
         private readonly string _myApi;
         private readonly string? token = Token.UserToken;
 
-        public MonefyAccountAppService(HttpClient httpClient, IMapper mapper, IConfiguration configuration)
+        public MonefyAccountAppService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _mapper = mapper;
             _myApi = configuration["MyApi:API"];
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
@@ -82,7 +80,6 @@ namespace MonefyClient.Application.Services.Implementations
                 {
                     Console.WriteLine($"{account.Id}, {account.Name}, {account.Currency}, {account.Balance}, {account.CreatedAt.ToString("dd-MMM-yyyy")}, {account.Incomes.ToList()}, {account.Expenses.ToList()},");
                 }
-                //var mapped = _mapper.Map<IEnumerable<AccountViewModel>>(accounts);
                 return accounts;
             }
             else

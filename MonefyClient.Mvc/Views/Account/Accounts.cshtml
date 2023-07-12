@@ -18,12 +18,13 @@
                 <td>@account.Currency</td>
                 <td>@account.Balance</td>
                 <td>
-                    <button class="btn btn-warning">
+                    <a class="btn btn-warning" asp-action="Edit" asp-controller="Account" asp-route-id="@account.Id">
                         Update
-                    </button>
-                    <button class="btn btn-danger">
+                    </a>
+
+                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Account" asp-route-id="@account.Id">
                         Delete
-                    </button>
+                    </a>
                 </td>
             </tr>
         }
