@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
@@ -10,25 +11,26 @@ namespace MonefyClient.Mvc.Controllers
     {
         private readonly IMonefyAccountAppService _appService;
         private readonly IMapper _mapper;
+        private readonly IValidator<AccountViewModel> _accountValidator;
 
-        public AccountController(IMonefyAccountAppService appService, IMapper mapper) 
+        public AccountController(IMonefyAccountAppService appService, IMapper mapper, IValidator<AccountViewModel> accountValidator) 
         {
             _appService = appService;
             _mapper = mapper;
+            _accountValidator = accountValidator;
         }
 
         public IActionResult Index()
         {
-
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Accounts()
         {
-            var userId = new Guid("75610266-f348-44df-c4e2-08db80c016a8");
-            //Console.WriteLine(await _appService.GetAccounts(userId));
-            var accounts = await _appService.GetAccounts(userId);
+            var accounts = await _appService.GetAccounts();
+            var mapper = _mapper.Map<IEnumerable<OutputAccountViewModel>>(accounts);
+            ViewBag.Accounts = mapper;
             return View();
         }
 
@@ -41,11 +43,18 @@ namespace MonefyClient.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AccountViewModel account)
         {
+            var validationResult = _accountValidator.Validate(account);
+
+            if (!validationResult.IsValid)
+            {
+                return View();
+            }
+
             var accountDTO = _mapper.Map<InputAccountDTO>(account);
 
-            var userId = new Guid("75610266-f348-44df-c4e2-08db80c016a8");
+            //Console.WriteLine($"id: {userId}, name: {accountDTO.Name}, currency: {accountDTO.Currency}");
 
-            var created = await _appService.CreateAccount(userId, accountDTO);
+            var created = await _appService.CreateAccount(accountDTO);
 
             if (created)
             {
@@ -56,3 +65,7 @@ namespace MonefyClient.Mvc.Controllers
         }
     }
 }
+
+// CRUD Account
+// Validate account form
+// La cuenta se crea dos veces en el back

@@ -1,10 +1,11 @@
 ﻿@model MonefyClient.ViewModels.ExpenseViewModel
 @{
-    ViewData["Title"] = "Expenses - Monefy";
+    ViewData["Title"] = "Create Expense - Monefy";
 }
 
 <section id="create_expense">
     <div class="container w-50" style="margin-top: 200px;">
+
         <form asp-action="Create" asp-controller="Expense">
             <h2 class="text-center mb-3">Create Expense</h2>
 
@@ -12,19 +13,35 @@
                 <div class="col-12 text-center">
                     <label asp-for="Description" class="form-label"></label>
                     <input type="text" asp-for="Description" placeholder="Description" class="form-control">
+
+                    <small class="text-danger">@Html.ValidationMessageFor(model=>model.Description)</small>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-12 text-center">
                     <label asp-for="Value" class="form-label"></label>
                     <input type="number" asp-for="Value" placeholder="0" class="form-control">
+
+                    <small class="text-danger">@Html.ValidationMessageFor(model=>model.Value)</small>
                 </div>
             </div>
-
             <div class="row mt-3">
                 <div class="col-12 text-center">
                     <label asp-for="Date" class="form-label"></label>
                     <input type="date" asp-for="Date" class="form-control">
+
+                    <small class="text-danger">@Html.ValidationMessageFor(model=>model.Date)</small>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <label asp-for="Category" class="form-label"></label>
+                    <select asp-for="Category">
+                        <option value="Category">category</option>
+                        <option value="Food">Food</option>
+                    </select>
+
+                    <small class="text-danger">@Html.ValidationMessageFor(model=>model.Category)</small>
                 </div>
             </div>
 
@@ -34,5 +51,6 @@
                 </div>
             </div>
         </form>
+
     </div>
 </section>

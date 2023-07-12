@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
@@ -10,11 +11,13 @@ namespace MonefyClient.Mvc.Controllers
     {
         private readonly IMonefyIncomeAppService _appService;
         private readonly IMapper _mapper;
+        private readonly IValidator<IncomeViewModel> _incomeValidator;
 
-        public IncomeController(IMonefyIncomeAppService appService, IMapper mapper)
+        public IncomeController(IMonefyIncomeAppService appService, IMapper mapper, IValidator<IncomeViewModel> incomeValidator)
         {
             _appService = appService;
             _mapper = mapper;
+            _incomeValidator = incomeValidator;
         }
 
         public IActionResult Index()
@@ -36,6 +39,13 @@ namespace MonefyClient.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(IncomeViewModel income)
         {
+            var validationResult = _incomeValidator.Validate(income);
+
+            if (!validationResult.IsValid)
+            {
+                return View();
+            }
+
             var incomeDTO = _mapper.Map<InputIncomeDTO>(income);
 
             var accountId = new Guid("461a4e05-e98b-427c-43cb-08db80c2950f");

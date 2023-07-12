@@ -14,7 +14,15 @@ namespace MonefyClient.Application.Services.Configuration
     {
         public AutoMapperProfile()
         {
-            CreateMap<AccountViewModel, OutputAccountDTO>().ReverseMap();
+            CreateMap<OutputAccountDTO, AccountViewModel>()
+                .ReverseMap();
+
+            //CreateMap<IEnumerable<OutputAccountDTO>, IEnumerable<AccountViewModel>>().ReverseMap();
+            //.ForMember(x => x.Id, act => act.Ignore())
+            //.ForMember(x => x.CreatedAt, act => act.Ignore())
+            //.ForMember(x => x.Balance, act => act.Ignore())
+            //.ForMember(x => x.Incomes, act => act.Ignore())
+            //.ForMember(x => x.Expenses, act => act.Ignore());
 
             CreateMap<ExpenseViewModel, OutputExpenseDTO>().ReverseMap();
 
