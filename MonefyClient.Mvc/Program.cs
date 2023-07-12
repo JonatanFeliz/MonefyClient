@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MonefyClient.Application.Services.Abstractions;
 using MonefyClient.Application.Services.Implementations;
@@ -8,6 +9,7 @@ using MonefyClient.Mvc.Validations;
 using MonefyClient.ViewModels;
 using Serilog;
 using System.Configuration;
+using System.Globalization;
 
 using var log = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -25,7 +27,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IValidator<UserViewModel>, UserViewModelValidator>();
 builder.Services.AddScoped<IValidator<UserLoginViewModel>, UserLoginViewModelValidator>();
+builder.Services.AddScoped<IValidator<ExpenseViewModel>, ExpenseViewModelValidator>();
+builder.Services.AddScoped<IValidator<IncomeViewModel>, IncomeViewModelValidator>();
+builder.Services.AddScoped<IValidator<AccountViewModel>, AccountViewModelValidator>();
 builder.Services.AddHttpClient();
+builder.Services.AddMvc();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IMonefyAccountAppService,MonefyAccountAppService>();
 builder.Services.AddTransient<IMonefyExpenseAppService, MonefyExpenseAppService>();
 builder.Services.AddTransient<IMonefyIncomeAppService, MonefyIncomeAppService>();
@@ -53,6 +60,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseRequestLocalization();
+
 app.UseAuthorization();
 
 app.UseSession();
@@ -67,10 +76,9 @@ app.Run();
 
 
 //TODO:
-// - JWT
-// - Multidioma
-// - Conectar con la API
+// - JWT x
+// - Conectar con la API x
 // - Inyeccion de dependencias (revisar)
 // - Mejorar apartado visual
-// - Sessions
+// - Sessions x
 // - Conectar API de crytos

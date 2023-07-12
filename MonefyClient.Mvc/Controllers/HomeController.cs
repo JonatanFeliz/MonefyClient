@@ -16,9 +16,9 @@ namespace MonefyClient.Mvc.Controllers
 
         public IActionResult Index()
         {
-            //var token = HttpContext.Session.GetString("Token");
-            //var userId = HttpContext.Session.GetString("UserId");
-            //ViewBag.Token = userId + " / "+ token;
+            var token = HttpContext.Session.GetString("Token");
+            var userId = HttpContext.Session.GetString("UserId");
+            ViewBag.Token = userId + " / " + token;
             return View();
         }
 

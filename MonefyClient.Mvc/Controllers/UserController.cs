@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using MonefyClient.Application.DTOs;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
 using MonefyClient.ViewModels;
@@ -11,8 +12,8 @@ namespace MonefyClient.Mvc.Controllers
     {
         private readonly IMonefyUserAppService _appService;
         private readonly IMapper _mapper;
-        IValidator<UserViewModel> _userValidator;
-        IValidator<UserLoginViewModel> _userLoginValidator;
+        private readonly IValidator<UserViewModel> _userValidator;
+        private readonly IValidator<UserLoginViewModel> _userLoginValidator;
 
         public UserController(IMonefyUserAppService appService, IMapper mapper, IValidator<UserViewModel> userValidator, IValidator<UserLoginViewModel> userLoginValidator)
         {
@@ -50,8 +51,10 @@ namespace MonefyClient.Mvc.Controllers
 
             if (token != null)
             {
+                Token.UserToken = token.Token;
                 HttpContext.Session.SetString("Token", token.Token);
                 HttpContext.Session.SetString("UserId", token.Id);
+                HttpContext.Session.SetString("Name", token.Name);
                 return RedirectToAction("Index", "Home");
             }
             else 

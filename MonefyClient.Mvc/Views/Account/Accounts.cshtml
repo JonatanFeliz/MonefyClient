@@ -3,18 +3,29 @@
     ViewData["Title"] = "Accounts - Monefy";
 }
 
-@*<section id="accounts">
-    <table cellpadding="0" cellspacing="0">
+<section id="accounts">
+    <table class="table table-primary text-center mt-3">
         <tr>
-            <th>Name</th>
-            <th>Currency</th>
+            <th scope="col">Name</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Actions</th>
         </tr>
-        @for(int i = 0; i < Model.Count(); i++) 
+        @foreach (var account in ViewBag.Accounts)
         {
             <tr>
-                <td>@accounts.Name</td>
-                <td>@accounts.Currency</td>
+                <td>@account.Name</td>
+                <td>@account.Currency</td>
+                <td>@account.Balance</td>
+                <td>
+                    <button class="btn btn-warning">
+                        Update
+                    </button>
+                    <button class="btn btn-danger">
+                        Delete
+                    </button>
+                </td>
             </tr>
         }
     </table>
-</section>*@
+</section>
