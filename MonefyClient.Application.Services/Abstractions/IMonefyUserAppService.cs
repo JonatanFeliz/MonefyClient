@@ -12,6 +12,7 @@ namespace MonefyClient.Application.Services.Abstractions
     public interface IMonefyUserAppService
     {
         Task<UserToken?> Login(InputUserDTO user);
+        Task Logout();
         Task<bool> AddUser(InputUserDTO user);
         Task<OutputUserDTO> GetUser(Guid id);
         Task<bool> UpdateUser(Guid id, InputUserDTO user);

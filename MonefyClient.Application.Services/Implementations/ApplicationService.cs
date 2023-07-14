@@ -95,6 +95,11 @@ namespace MonefyClient.Application.Services.Implementations
             return null;
         }
 
+        public async Task Logout()
+        {
+            await _httpClient.PostAsync($"{_myApi}User/Logout", null);
+        }
+
         public async Task<bool> UpdateUser(Guid id, InputUserDTO user)
         {
             var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
@@ -152,10 +157,28 @@ namespace MonefyClient.Application.Services.Implementations
             if (response.IsSuccessStatusCode)
             {
                 var accounts = await response.Content.ReadAsAsync<IEnumerable<OutputAccountDTO>>();
-                foreach (var account in accounts)
-                {
-                    Console.WriteLine($"{account.Id}, {account.Name}, {account.Currency}, {account.Balance}, {account.CreatedAt.ToString("dd-MMM-yyyy")}, {account.Incomes.ToList()}, {account.Expenses.ToList()},");
-                }
+                return accounts;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<OutputAccountDTO>> GetTransactionsPerAccountDate(int year, int month, Guid? accountId= null)
+        {
+            var sb = new StringBuilder();
+            sb.Append($"{_myApi}Account/GetTransactionPerAccountDate/");
+            sb.Append(year);
+            sb.Append('/');
+            sb.Append(month);
+            sb.Append("?accountId=");
+            sb.Append(accountId);
+            var response = await _httpClient.GetAsync(sb.ToString());
+
+            if (response.IsSuccessStatusCode)
+            {
+                var accounts = await response.Content.ReadAsAsync<IEnumerable<OutputAccountDTO>>();
                 return accounts;
             }
             else
@@ -178,10 +201,15 @@ namespace MonefyClient.Application.Services.Implementations
         #endregion
 
         #region Income
-        public async Task<bool> AddIncome(Guid accountId, InputIncomeDTO income)
+        public async Task<bool> AddIncome(Guid accountId, Guid categoryId, InputIncomeDTO income)
         {
             var content = new StringContent(JsonConvert.SerializeObject(income), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{_myApi}Income/AddIncome/" + accountId, content);
+            var sb = new StringBuilder();
+            sb.Append($"{_myApi}Income/AddIncome/");
+            sb.Append(accountId);
+            sb.Append('/');
+            sb.Append(categoryId);
+            var response = await _httpClient.PostAsync(sb.ToString(), content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -195,11 +223,16 @@ namespace MonefyClient.Application.Services.Implementations
 
         public async Task<IEnumerable<OutputIncomeDTO>> GetUserIncomes()
         {
-            var response = await _httpClient.GetAsync($"{_myApi}Expense/GetUserIncomes");
+            var response = await _httpClient.GetAsync($"{_myApi}Account/GetUserAccounts");
 
             if (response.IsSuccessStatusCode)
             {
-                var incomes = await response.Content.ReadAsAsync<IEnumerable<OutputIncomeDTO>>();
+                var accounts = await response.Content.ReadAsAsync<IEnumerable<OutputAccountDTO>>();
+                IEnumerable<OutputIncomeDTO> incomes = Enumerable.Empty<OutputIncomeDTO>();
+                foreach (var account in accounts)
+                {
+                    if(account.Incomes != null) incomes = incomes.Concat(account.Incomes);
+                }
                 return incomes;
             }
             else
@@ -211,7 +244,7 @@ namespace MonefyClient.Application.Services.Implementations
 
         public async Task<OutputIncomeDTO> GetIncome(Guid id)
         {
-            var response = await _httpClient.GetAsync($"{_myApi}Expense/GetIncome/" + id);
+            var response = await _httpClient.GetAsync($"{_myApi}Income/GetIncome/" + id);
 
             if (response.IsSuccessStatusCode)
             {
@@ -291,10 +324,15 @@ namespace MonefyClient.Application.Services.Implementations
         #endregion
 
         #region Expense
-        public async Task<bool> AddExpense(Guid accountId, InputExpenseDTO expense)
+        public async Task<bool> AddExpense(Guid accountId, Guid categoryId, InputExpenseDTO expense)
         {
             var content = new StringContent(JsonConvert.SerializeObject(expense), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{_myApi}Expense/AddExpense/" + accountId, content);
+            var sb = new StringBuilder();
+            sb.Append($"{_myApi}Expense/AddExpense/");
+            sb.Append(accountId);
+            sb.Append('/');
+            sb.Append(categoryId);
+            var response = await _httpClient.PostAsync(sb.ToString(), content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -308,11 +346,16 @@ namespace MonefyClient.Application.Services.Implementations
 
         public async Task<IEnumerable<OutputExpenseDTO>> GetUserExpenses()
         {
-            var response = await _httpClient.GetAsync($"{_myApi}Expense/GetUserExpenses");
+            var response = await _httpClient.GetAsync($"{_myApi}Account/GetUserAccounts");
 
             if (response.IsSuccessStatusCode)
             {
-                var expenses = await response.Content.ReadAsAsync<IEnumerable<OutputExpenseDTO>>();
+                var accounts = await response.Content.ReadAsAsync<IEnumerable<OutputAccountDTO>>();
+                var expenses = Enumerable.Empty<OutputExpenseDTO>();
+                foreach (var account in accounts)
+                {
+                    if (account.Expenses != null) expenses = expenses.Concat(account.Expenses);
+                }
                 return expenses;
             }
             else

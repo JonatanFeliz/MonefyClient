@@ -2,6 +2,24 @@
     ViewData["Title"] = "Expenses - Monefy";
 }
 
-<section id="expenses">
-    <p>Hello to your expenses</p>
+<section id="accounts">
+    <table class="table table-primary text-center mt-3">
+        <tr>
+            <th scope="col">Description</th>
+            <th scope="col">Value</th>
+            <th scope="col">Date</th>
+            <th scope="col">Create at</th>
+            <th scope="col">Category</th>
+        </tr>
+        @foreach (var expense in ViewBag.Expenses)
+        {
+            <tr>
+                <td>@expense.Description</td>
+                <td>@expense.Value</td>
+                <td>@expense.Date</td>
+                <td>@expense.CreatedAt </td>
+                <td>@expense.Category.Name </td>
+            </tr>
+        }
+    </table>
 </section>

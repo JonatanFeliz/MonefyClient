@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
 using MonefyClient.ViewModels.InputViewModels;
+using MonefyClient.ViewModels.OutputViewModels;
 
 namespace MonefyClient.Mvc.Controllers
 {
     public class IncomeController : Controller
     {
-        private readonly IMonefyIncomeAppService _appService;
+        private readonly IMonefyAppService _appService;
         private readonly IMapper _mapper;
         private readonly IValidator<InputIncomeViewModel> _incomeValidator;
 
-        public IncomeController(IMonefyIncomeAppService appService, IMapper mapper, IValidator<InputIncomeViewModel> incomeValidator)
+        public IncomeController(IMonefyAppService appService, IMapper mapper, IValidator<InputIncomeViewModel> incomeValidator)
         {
             _appService = appService;
             _mapper = mapper;
@@ -30,8 +31,14 @@ namespace MonefyClient.Mvc.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var accounts = await _appService.GetUserAccounts();
+            var incomeCategories = await _appService.GetIncomeCategories();
+
+            ViewBag.IncomeCategories = _mapper.Map<IEnumerable<OutputIncomeCategoryViewModel>>(incomeCategories);
+            ViewBag.Accounts = _mapper.Map<IEnumerable<OutputAccountViewModel>>(accounts);
+
             InputIncomeViewModel model = new();
             return View(model);
         }
@@ -48,9 +55,7 @@ namespace MonefyClient.Mvc.Controllers
 
             var incomeDTO = _mapper.Map<InputIncomeDTO>(income);
 
-            var accountId = new Guid("461a4e05-e98b-427c-43cb-08db80c2950f");
-
-            var created = await _appService.AddIncome(accountId, incomeDTO);
+            var created = await _appService.AddIncome(income.AccountId, income.CategoryId, incomeDTO);
 
             if (created)
             {

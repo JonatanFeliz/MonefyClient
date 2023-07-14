@@ -34,6 +34,12 @@ namespace MonefyClient.Mvc.Controllers
             return View(model);
         }
 
+        public IActionResult Logout()
+        {
+            _appService.Logout();
+            return RedirectToAction("Login", "User");
+        }
+
         public IActionResult Register()
         {
             InputUserViewModel model = new();

@@ -10,7 +10,7 @@ namespace MonefyClient.Application.Services.Abstractions
 {
     public interface IMonefyIncomeAppService
     {
-        Task<bool> AddIncome(Guid accountId, InputIncomeDTO income);
+        Task<bool> AddIncome(Guid accountId, Guid categoryId, InputIncomeDTO income);
         Task<IEnumerable<OutputIncomeDTO>> GetUserIncomes();
         Task<OutputIncomeDTO> GetIncome(Guid id);
         Task<bool> UpdateIncome(Guid id, InputIncomeDTO income);

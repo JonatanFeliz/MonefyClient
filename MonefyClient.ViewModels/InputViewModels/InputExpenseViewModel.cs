@@ -12,7 +12,8 @@ namespace MonefyClient.ViewModels.InputViewModels
         public string? Description { get; set; }
         public decimal? Value { get; set; }
         public DateTime? Date { get; set; }
-        public InputExpenseCategoryDTO? Category { get; set; }
+        public string? Category { get; set; }
         public Guid AccountId { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }

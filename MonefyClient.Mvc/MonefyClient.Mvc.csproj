@@ -29,4 +29,8 @@
     <ProjectReference Include="..\MonefyClient.ViewModels\MonefyClient.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\image\" />
+  </ItemGroup>
+
 </Project>
