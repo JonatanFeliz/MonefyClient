@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonefyClient.Application.DTOs
+namespace MonefyClient.Application.DTOs.Models
 {
     public static class Token
     {
-        public static string? UserToken {  get; set; }
+        public static string? UserToken { get; set; }
     }
 }

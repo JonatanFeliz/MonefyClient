@@ -3,12 +3,11 @@ using MonefyClient.ViewModels.InputViewModels;
 
 namespace MonefyClient.Mvc.Validations
 {
-    public class AccountViewModelValidator : AbstractValidator<InputAccountViewModel>
+    public class ExpenseCategoryViewModelValidator : AbstractValidator<InputExpenseCategoryViewModel>
     {
-        public AccountViewModelValidator()
+        public ExpenseCategoryViewModelValidator() 
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("*Required");
-            RuleFor(x => x.Currency).NotEmpty().WithMessage("*Required");
         }
     }
 }

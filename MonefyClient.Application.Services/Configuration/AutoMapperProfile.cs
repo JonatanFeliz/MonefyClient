@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.DTOs.OutputDTOs;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace MonefyClient.Application.Services.Configuration
     {
         public AutoMapperProfile()
         {
-            CreateMap<OutputAccountDTO, AccountViewModel>()
+            CreateMap<OutputAccountDTO, InputAccountViewModel>()
                 .ReverseMap();
 
             //CreateMap<IEnumerable<OutputAccountDTO>, IEnumerable<AccountViewModel>>().ReverseMap();
@@ -24,11 +24,11 @@ namespace MonefyClient.Application.Services.Configuration
             //.ForMember(x => x.Incomes, act => act.Ignore())
             //.ForMember(x => x.Expenses, act => act.Ignore());
 
-            CreateMap<ExpenseViewModel, OutputExpenseDTO>().ReverseMap();
+            CreateMap<InputExpenseViewModel, OutputExpenseDTO>().ReverseMap();
 
-            CreateMap<IncomeViewModel, OutputIncomeDTO>().ReverseMap();
+            CreateMap<InputIncomeViewModel, OutputIncomeDTO>().ReverseMap();
 
-            CreateMap<UserViewModel, OutputUserDTO>().ReverseMap();
+            CreateMap<InputUserViewModel, OutputUserDTO>().ReverseMap();
         }
     }
 }

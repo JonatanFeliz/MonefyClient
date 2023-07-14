@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using MonefyClient.Application.Services.Abstractions;
 using MonefyClient.Application.Services.Implementations;
 using MonefyClient.Mvc.Validations;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
 using Serilog;
 using System.Configuration;
 using System.Globalization;
@@ -25,25 +25,28 @@ builder.Services.AddSingleton<Serilog.ILogger>(log);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddScoped<IValidator<UserViewModel>, UserViewModelValidator>();
-builder.Services.AddScoped<IValidator<UserLoginViewModel>, UserLoginViewModelValidator>();
-builder.Services.AddScoped<IValidator<ExpenseViewModel>, ExpenseViewModelValidator>();
-builder.Services.AddScoped<IValidator<IncomeViewModel>, IncomeViewModelValidator>();
-builder.Services.AddScoped<IValidator<AccountViewModel>, AccountViewModelValidator>();
+builder.Services.AddScoped<IValidator<InputUserViewModel>, UserViewModelValidator>();
+builder.Services.AddScoped<IValidator<InputUserLoginViewModel>, UserLoginViewModelValidator>();
+builder.Services.AddScoped<IValidator<InputExpenseViewModel>, ExpenseViewModelValidator>();
+builder.Services.AddScoped<IValidator<InputIncomeViewModel>, IncomeViewModelValidator>();
+builder.Services.AddScoped<IValidator<InputAccountViewModel>, AccountViewModelValidator>();
+builder.Services.AddScoped<IValidator<InputExpenseCategoryViewModel>, ExpenseCategoryViewModelValidator>();
+builder.Services.AddScoped<IValidator<InputIncomeCategoryViewModel>, IncomeCategoryViewModelValidator>();
 builder.Services.AddHttpClient();
 builder.Services.AddMvc();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient<IMonefyAccountAppService,MonefyAccountAppService>();
-builder.Services.AddTransient<IMonefyExpenseAppService, MonefyExpenseAppService>();
-builder.Services.AddTransient<IMonefyIncomeAppService, MonefyIncomeAppService>();
-builder.Services.AddTransient<IMonefyUserAppService, MonefyUserAppService>();
+//builder.Services.AddTransient<IMonefyAccountAppService, ApplicationService>();
+//builder.Services.AddTransient<IMonefyExpenseAppService, ApplicationService>();
+//builder.Services.AddTransient<IMonefyExpenseCategoryAppService, ApplicationService>();
+//builder.Services.AddTransient<IMonefyIncomeCategoryAppService, ApplicationService>();
+//builder.Services.AddTransient<IMonefyIncomeAppService, ApplicationService>();
+builder.Services.AddTransient<IMonefyAppService, ApplicationService>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(3);
 });
-//builder.Services.AddMvc();
 
 var app = builder.Build();
 
@@ -66,19 +69,15 @@ app.UseAuthorization();
 
 app.UseSession();
 
-//app.UseMvc();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Login}/{id?}");
+    pattern: "{controller=User}/{action=Index}/{id?}");
 
 app.Run();
 
 
-//TODO:
-// - JWT x
-// - Conectar con la API x
-// - Inyeccion de dependencias (revisar)
-// - Mejorar apartado visual
-// - Sessions x
-// - Conectar API de crytos
+//TODO (Obligatorio):
+//- Falta un endpoint que recoja un income/expense category por id
+//- Mirar el tema de la categoria al crear un expense/income, mirar si debe llevar id o no
+//- 
+//- 

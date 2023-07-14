@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using MonefyClient.Application.DTOs;
 using MonefyClient.Application.DTOs.InputDTOs;
+using MonefyClient.Application.DTOs.Models;
 using MonefyClient.Application.Services.Abstractions;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
 
 namespace MonefyClient.Mvc.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IMonefyUserAppService _appService;
+        private readonly IMonefyAppService _appService;
         private readonly IMapper _mapper;
-        private readonly IValidator<UserViewModel> _userValidator;
-        private readonly IValidator<UserLoginViewModel> _userLoginValidator;
+        private readonly IValidator<InputUserViewModel> _userValidator;
+        private readonly IValidator<InputUserLoginViewModel> _userLoginValidator;
 
-        public UserController(IMonefyUserAppService appService, IMapper mapper, IValidator<UserViewModel> userValidator, IValidator<UserLoginViewModel> userLoginValidator)
+        public UserController(IMonefyAppService appService, IMapper mapper, IValidator<InputUserViewModel> userValidator, IValidator<InputUserLoginViewModel> userLoginValidator)
         {
             _appService = appService;
             _mapper = mapper;
@@ -23,20 +23,25 @@ namespace MonefyClient.Mvc.Controllers
             _userValidator = userValidator;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult Login()
         {
-            UserLoginViewModel model = new();
+            InputUserLoginViewModel model = new();
             return View(model);
         }
 
         public IActionResult Register()
         {
-            UserViewModel model = new();
+            InputUserViewModel model = new();
             return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserLoginViewModel user)
+        public async Task<IActionResult> Login(InputUserLoginViewModel user)
         {
             var validationResult = _userLoginValidator.Validate(user);
             
@@ -47,7 +52,7 @@ namespace MonefyClient.Mvc.Controllers
 
             var userDTO = _mapper.Map<InputUserDTO>(user);
 
-            var token = await _appService.ValidateLogin(userDTO);
+            var token = await _appService.Login(userDTO);
 
             if (token != null)
             {
@@ -66,7 +71,7 @@ namespace MonefyClient.Mvc.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(UserViewModel user)
+        public async Task<IActionResult> Register(InputUserViewModel user)
         {
             var validationResult = _userValidator.Validate(user);
 
@@ -77,7 +82,7 @@ namespace MonefyClient.Mvc.Controllers
 
             var userDTO = _mapper.Map<InputUserDTO>(user);
 
-            var registered = await _appService.CreateUser(userDTO);
+            var registered = await _appService.AddUser(userDTO);
 
             if (registered)
             {
@@ -89,6 +94,12 @@ namespace MonefyClient.Mvc.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet, ValidateAntiForgeryToken]
+        public IActionResult Logout(InputUserViewModel user)
+        {
+            return RedirectToAction("Login", "User");
         }
     }
 }

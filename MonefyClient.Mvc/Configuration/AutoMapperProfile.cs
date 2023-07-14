@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.DTOs.OutputDTOs;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
+using MonefyClient.ViewModels.OutputViewModels;
 
 namespace MonefyClient.Mvc.Configuration
 {
@@ -9,19 +10,30 @@ namespace MonefyClient.Mvc.Configuration
     {
         public AutoMapperProfile()
         {
-            CreateMap<AccountViewModel, InputAccountDTO>().ReverseMap();
+            // Input 
+            CreateMap<InputAccountViewModel, InputAccountDTO>().ReverseMap();
 
-            CreateMap<AccountViewModel, OutputAccountDTO>().ReverseMap();
+            CreateMap<InputAccountViewModel, OutputAccountDTO>().ReverseMap();
+
+            CreateMap<InputExpenseViewModel, InputExpenseDTO>().ReverseMap();
+
+            CreateMap<InputIncomeViewModel, InputIncomeDTO>().ReverseMap();
+
+            CreateMap<InputIncomeCategoryViewModel, InputIncomeCategoryDTO>().ReverseMap();
+
+            CreateMap<InputExpenseCategoryViewModel, InputExpenseCategoryDTO>().ReverseMap();
+
+            CreateMap<InputUserViewModel, InputUserDTO>().ReverseMap();
+
+            CreateMap<InputUserLoginViewModel, InputUserDTO>().ReverseMap();
+
+            // Output
 
             CreateMap<OutputAccountViewModel, OutputAccountDTO>().ReverseMap();
 
-            CreateMap<ExpenseViewModel, InputExpenseDTO>().ReverseMap();
+            CreateMap<OutputExpenseCategoryDTO, OutputExpenseCategoryViewModel>().ReverseMap();
 
-            CreateMap<IncomeViewModel, InputIncomeDTO>().ReverseMap();
-
-            CreateMap<UserViewModel, InputUserDTO>().ReverseMap();
-
-            CreateMap<UserLoginViewModel, InputUserDTO>().ReverseMap();
+            CreateMap<OutputIncomeCategoryDTO, OutputIncomeCategoryViewModel>().ReverseMap();
         }
     }
 }

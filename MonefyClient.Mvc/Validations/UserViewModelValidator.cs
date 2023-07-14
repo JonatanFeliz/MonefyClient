@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
 
 namespace MonefyClient.Mvc.Validations
 {
-    public class UserViewModelValidator : AbstractValidator<UserViewModel>
+    public class UserViewModelValidator : AbstractValidator<InputUserViewModel>
     {
         public UserViewModelValidator()
         {

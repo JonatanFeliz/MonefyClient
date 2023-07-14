@@ -3,18 +3,19 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
+using MonefyClient.ViewModels.OutputViewModels;
 using System.Security.Principal;
 
 namespace MonefyClient.Mvc.Controllers
 {
     public class ExpenseController : Controller
     {
-        private readonly IMonefyExpenseAppService _appService;
+        private readonly IMonefyAppService _appService;
         private readonly IMapper _mapper;
-        private readonly IValidator<ExpenseViewModel> _expenseValidator;
+        private readonly IValidator<InputExpenseViewModel> _expenseValidator;
 
-        public ExpenseController(IMonefyExpenseAppService appService, IMapper mapper, IValidator<ExpenseViewModel> expenseValidator)
+        public ExpenseController(IMonefyAppService appService, IMapper mapper, IValidator<InputExpenseViewModel> expenseValidator)
         {
             _appService = appService;
             _mapper = mapper;
@@ -31,14 +32,20 @@ namespace MonefyClient.Mvc.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ExpenseViewModel model = new();
+            var accounts = await _appService.GetUserAccounts();
+            var expenseCategories = await _appService.GetExpenseCategories();
+
+            ViewBag.ExpenseCategories = _mapper.Map<IEnumerable<OutputExpenseCategoryViewModel>>(expenseCategories);
+            ViewBag.Accounts = _mapper.Map<IEnumerable<OutputAccountViewModel>>(accounts);
+
+            InputExpenseViewModel model = new();
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ExpenseViewModel expense)
+        public async Task<IActionResult> Create(InputExpenseViewModel expense)
         {
             var validationResult = _expenseValidator.Validate(expense);
 
@@ -47,13 +54,9 @@ namespace MonefyClient.Mvc.Controllers
                 return View();
             }
 
-            //var expenseDTO = _mapper.Map<InputExpenseDTO>(expense);
+            var expenseDTO = _mapper.Map<InputExpenseDTO>(expense);
 
-            //var accountId = new Guid("461a4e05-e98b-427c-43cb-08db80c2950f");
-
-            //var created = await _appService.CreateExpense(accountId, expenseDTO);
-
-            var created = true;
+            var created = await _appService.AddExpense(expense.AccountId, expenseDTO);
 
             if (created)
             {
@@ -62,5 +65,40 @@ namespace MonefyClient.Mvc.Controllers
 
             return View();
         }
+
+        //public async Task<IActionResult> Create()
+        //{
+        //    var accounts = await _accountAppService.GetAccounts();
+        //    var mapper = _mapper.Map<IEnumerable<OutputAccountViewModel>>(accounts);
+        //    ViewBag.Accounts = mapper;
+        //    InputExpenseViewModel model = new();
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> Create(InputExpenseViewModel expense)
+        //{
+        //    var validationResult = _expenseValidator.Validate(expense);
+
+        //    if (!validationResult.IsValid)
+        //    {
+        //        return View();
+        //    }
+
+        //    //var expenseDTO = _mapper.Map<InputExpenseDTO>(expense);
+
+        //    //var accountId = new Guid("461a4e05-e98b-427c-43cb-08db80c2950f");
+
+        //    //var created = await _appService.CreateExpense(accountId, expenseDTO);
+
+        //    var created = true;
+
+        //    if (created)
+        //    {
+        //        return RedirectToAction("Index", "Expense");
+        //    }
+
+        //    return View();
+        //}
     }
 }

@@ -1,7 +1,7 @@
 ﻿@using MonefyClient.ViewModels.OutputViewModels;
-@model OutputAccountViewModel
+@model OutputExpenseCategoryViewModel
 @{
-    ViewData["Title"] = "Create Account - Monefy";
+    ViewData["Title"] = "Delete Expense Category - Monefy";
 }
 
 <section id="delete_account">
@@ -20,18 +20,6 @@
                     @Html.DisplayFor(model => model.Name)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Currency)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Currency)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Balance)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Balance)
-                </dd>
-                <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.CreatedAt)
                 </dt>
                 <dd class="col-sm-10">
@@ -39,7 +27,7 @@
                 </dd>
             </dl>
 
-            <form asp-action="DeleteConfirmed" asp-controller="Account">
+            <form asp-action="DeleteConfirmedExpense" asp-controller="Category">
                 <input type="hidden" asp-for="Id" />
                 <input type="submit" value="Delete" class="btn btn-danger" />
             </form>

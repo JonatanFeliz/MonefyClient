@@ -11,10 +11,10 @@ namespace MonefyClient.Application.Services.Abstractions
 {
     public interface IMonefyAccountAppService
     {
-        Task<bool> CreateAccount(InputAccountDTO account);
-        Task<IEnumerable<OutputAccountDTO>> GetAccounts();
+        Task<bool> AddAccount(InputAccountDTO account);
+        Task<IEnumerable<OutputAccountDTO>> GetUserAccounts();
         Task<OutputAccountDTO> GetAccount(Guid id);
-        Task<bool> Update(Guid id, InputAccountDTO account);
-        Task<bool> Delete(Guid id);
+        Task<bool> UpdateAccount(Guid id, InputAccountDTO account);
+        Task<bool> DeleteAccount(Guid id);
     }
 }

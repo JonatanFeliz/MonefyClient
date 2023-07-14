@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MonefyClient.Application.DTOs.OutputDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonefyClient.Application.DTOs.OutputDTOs
+namespace MonefyClient.ViewModels.OutputViewModels
 {
-    public class OutputUserDTO
+    public class OutputUserViewModel
     {
         public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -17,6 +18,7 @@ namespace MonefyClient.Application.DTOs.OutputDTOs
         public string Password { get; set; }
         = string.Empty;
         public decimal Balance { get; set; }
-        public IEnumerable<OutputAccountDTO>? Accounts { get; set; }
+        public IEnumerable<OutputAccountDTO> Accounts { get; set; }
+        = Enumerable.Empty<OutputAccountDTO>();
     }
 }

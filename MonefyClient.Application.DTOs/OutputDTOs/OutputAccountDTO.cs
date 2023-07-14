@@ -15,7 +15,7 @@ namespace MonefyClient.Application.DTOs.OutputDTOs
         public string Currency { get; set; }
         = string.Empty;
         public decimal Balance { get; set; }
-        public IEnumerable<OutputIncomeDTO> Incomes { get; set; }
-        public IEnumerable<OutputIncomeDTO> Expenses { get; set; }
+        public IEnumerable<OutputIncomeDTO>? Incomes { get; set; }
+        public IEnumerable<OutputIncomeDTO>? Expenses { get; set; }
     }
 }
