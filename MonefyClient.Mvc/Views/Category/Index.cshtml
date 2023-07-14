@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Category - Monefy";
+}
+
+<section id="category_index">
+    <div class="container w-50" style="margin-top: 200px;">
+        <div class="row">
+            <div class="col-4 text-center">
+                <a asp-area="" class="btn btn-success p-3" asp-controller="Category" asp-action="Categories">
+                    My categories
+                </a>
+            </div>
+
+            <div class="col-4 text-center">
+                <a asp-area="" class="btn btn-success p-3" asp-controller="Category" asp-action="CreateIncome">
+                    Create income category
+                </a>
+            </div>
+
+            <div class="col-4 text-center">
+                <a asp-area="" class="btn btn-success p-3" asp-controller="Category" asp-action="CreateExpense">
+                    Create expense category
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+

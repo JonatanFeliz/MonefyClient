@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonefyClient.ViewModels
+namespace MonefyClient.ViewModels.InputViewModels
 {
-    public class IncomeViewModel
+    public class InputIncomeViewModel
     {
         public string? Description { get; set; }
         public decimal? Value { get; set; }

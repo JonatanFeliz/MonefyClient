@@ -1,6 +1,6 @@
-﻿namespace MonefyClient.ViewModels
+﻿namespace MonefyClient.ViewModels.InputViewModels
 {
-    public class UserViewModel
+    public class InputUserViewModel
     {
         public string? Name { get; set; }
         public string? Password { get; set; }

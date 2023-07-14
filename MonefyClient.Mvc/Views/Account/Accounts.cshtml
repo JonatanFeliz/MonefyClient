@@ -1,5 +1,4 @@
-﻿@*@model List<AccountViewModel>*@
-@{
+﻿@{
     ViewData["Title"] = "Accounts - Monefy";
 }
 
@@ -9,6 +8,7 @@
             <th scope="col">Name</th>
             <th scope="col">Currency</th>
             <th scope="col">Balance</th>
+            <th scope="col">Create at</th>
             <th scope="col">Actions</th>
         </tr>
         @foreach (var account in ViewBag.Accounts)
@@ -17,6 +17,7 @@
                 <td>@account.Name</td>
                 <td>@account.Currency</td>
                 <td>@account.Balance</td>
+                <td>@account.CreatedAt </td>
                 <td>
                     <a class="btn btn-warning" asp-action="Edit" asp-controller="Account" asp-route-id="@account.Id">
                         Update

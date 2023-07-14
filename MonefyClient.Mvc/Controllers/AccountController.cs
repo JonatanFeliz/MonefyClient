@@ -3,17 +3,18 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using MonefyClient.Application.DTOs.InputDTOs;
 using MonefyClient.Application.Services.Abstractions;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
+using MonefyClient.ViewModels.OutputViewModels;
 
 namespace MonefyClient.Mvc.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IMonefyAccountAppService _appService;
+        private readonly IMonefyAppService _appService;
         private readonly IMapper _mapper;
-        private readonly IValidator<AccountViewModel> _accountValidator;
+        private readonly IValidator<InputAccountViewModel> _accountValidator;
 
-        public AccountController(IMonefyAccountAppService appService, IMapper mapper, IValidator<AccountViewModel> accountValidator) 
+        public AccountController(IMonefyAppService appService, IMapper mapper, IValidator<InputAccountViewModel> accountValidator) 
         {
             _appService = appService;
             _mapper = mapper;
@@ -28,7 +29,7 @@ namespace MonefyClient.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Accounts()
         {
-            var accounts = await _appService.GetAccounts();
+            var accounts = await _appService.GetUserAccounts();
             var mapper = _mapper.Map<IEnumerable<OutputAccountViewModel>>(accounts);
             ViewBag.Accounts = mapper;
             return View();
@@ -36,12 +37,12 @@ namespace MonefyClient.Mvc.Controllers
 
         public IActionResult Create()
         {
-            AccountViewModel model = new();
+            InputAccountViewModel model = new();
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(AccountViewModel account)
+        public async Task<IActionResult> Create(InputAccountViewModel account)
         {
             var validationResult = _accountValidator.Validate(account);
 
@@ -52,7 +53,7 @@ namespace MonefyClient.Mvc.Controllers
 
             var accountDTO = _mapper.Map<InputAccountDTO>(account);
 
-            var created = await _appService.CreateAccount(accountDTO);
+            var created = await _appService.AddAccount(accountDTO);
 
             if (created)
             {
@@ -72,7 +73,7 @@ namespace MonefyClient.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _appService.Delete(id);
+            await _appService.DeleteAccount(id);
 
             return RedirectToAction("Accounts", "Account");
         }
@@ -85,7 +86,7 @@ namespace MonefyClient.Mvc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, AccountViewModel account)
+        public async Task<IActionResult> Edit(Guid id, InputAccountViewModel account)
         {
             var validationResult = _accountValidator.Validate(account);
 
@@ -96,7 +97,7 @@ namespace MonefyClient.Mvc.Controllers
 
             var accountDTO = _mapper.Map<InputAccountDTO>(account);
 
-            var created = await _appService.Update(id, accountDTO);
+            var created = await _appService.UpdateAccount(id, accountDTO);
 
             if (created)
             {
@@ -109,7 +110,3 @@ namespace MonefyClient.Mvc.Controllers
         
     }
 }
-
-// CRUD Account
-// Validate account form
-// La cuenta se crea dos veces en el back

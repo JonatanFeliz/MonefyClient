@@ -1,4 +1,5 @@
-﻿@model MonefyClient.ViewModels.ExpenseViewModel
+﻿@using MonefyClient.ViewModels.InputViewModels;
+@model InputExpenseViewModel
 @{
     ViewData["Title"] = "Create Expense - Monefy";
 }
@@ -36,12 +37,26 @@
             <div class="row mt-3">
                 <div class="col-12 text-center">
                     <label asp-for="Category" class="form-label"></label>
-                    <select asp-for="Category">
-                        <option value="Category">category</option>
-                        <option value="Food">Food</option>
+                    <select asp-for="Category.Name">
+                        @foreach (var category in ViewBag.ExpenseCategories)
+                        {
+                            <option value="@category.Name">@category.Name</option>
+                        }
                     </select>
 
                     <small class="text-danger">@Html.ValidationMessageFor(model=>model.Category)</small>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <label asp-for="AccountId" class="form-label"></label>
+                    <select asp-for="AccountId">
+                        @foreach (var account in ViewBag.Accounts)
+                        {
+                            <option value="@account.Id">@account.Name</option>
+                        }
+                    </select>
                 </div>
             </div>
 

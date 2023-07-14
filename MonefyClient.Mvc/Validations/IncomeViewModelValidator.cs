@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using MonefyClient.ViewModels;
+using MonefyClient.ViewModels.InputViewModels;
 
 namespace MonefyClient.Mvc.Validations
 {
-    public class IncomeViewModelValidator : AbstractValidator<IncomeViewModel>
+    public class IncomeViewModelValidator : AbstractValidator<InputIncomeViewModel>
     {
         public IncomeViewModelValidator()
         {

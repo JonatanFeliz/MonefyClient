@@ -1,5 +1,6 @@
-﻿using MonefyClient.Application.DTOs;
-using MonefyClient.Application.DTOs.InputDTOs;
+﻿using MonefyClient.Application.DTOs.InputDTOs;
+using MonefyClient.Application.DTOs.Models;
+using MonefyClient.Application.DTOs.OutputDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,10 @@ namespace MonefyClient.Application.Services.Abstractions
 {
     public interface IMonefyUserAppService
     {
-        Task<UserToken?> ValidateLogin(InputUserDTO user);
-        Task<bool> CreateUser(InputUserDTO user);
+        Task<UserToken?> Login(InputUserDTO user);
+        Task<bool> AddUser(InputUserDTO user);
+        Task<OutputUserDTO> GetUser(Guid id);
+        Task<bool> UpdateUser(Guid id, InputUserDTO user);
+        Task<bool> DeleteUser(Guid id); 
     }
 }

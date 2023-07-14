@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Accounts - Monefy";
+}
+
+<section id="accounts">
+    <h2>Income Categories</h2>
+    <table class="table table-primary text-center mt-3">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Create at</th>
+            <th scope="col">Actions</th>
+        </tr>
+        @foreach (var category in ViewBag.IncomeCategories)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.CreatedAt </td>
+                <td>
+                    <a class="btn btn-danger" asp-action="DeleteIncome" asp-controller="Category" asp-route-id="@category.Id">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <h2>Expense Categories</h2>
+    <table class="table table-primary text-center mt-3">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Create at</th>
+            <th scope="col">Actions</th>
+        </tr>
+        @foreach (var category in ViewBag.ExpenseCategories)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.CreatedAt </td>
+                <td>
+                    <a class="btn btn-danger" asp-action="DeleteExpense" asp-controller="Category" asp-route-id="@category.Id">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</section>
+

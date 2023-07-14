@@ -1,4 +1,5 @@
 ﻿using MonefyClient.Application.DTOs.InputDTOs;
+using MonefyClient.Application.DTOs.OutputDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace MonefyClient.Application.Services.Abstractions
 {
     public interface IMonefyIncomeAppService
     {
-        Task<bool> CreateIncome(Guid accountId, InputIncomeDTO expense);
+        Task<bool> AddIncome(Guid accountId, InputIncomeDTO income);
+        Task<IEnumerable<OutputIncomeDTO>> GetUserIncomes();
+        Task<OutputIncomeDTO> GetIncome(Guid id);
+        Task<bool> UpdateIncome(Guid id, InputIncomeDTO income);
+        Task<bool> DeleteIncome(Guid id);
     }
 }

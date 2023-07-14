@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonefyClient.ViewModels
+namespace MonefyClient.Application.DTOs.OutputDTOs
 {
-    public class AccountViewModel
+    public class OutputIncomeCategoryDTO
     {
+        public Guid Id { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public string? Name { get; set; }
-        public string? Currency { get; set; }
     }
 }
